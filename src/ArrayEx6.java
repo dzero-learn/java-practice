@@ -2,7 +2,7 @@ public class ArrayEx6 {
     public static void main(String[] args) {
         int[] numArr = new int[10];
 
-        /** 버블 정렬 **/
+        /* 버블 정렬 */
         System.out.print("origin arr: ");
         for(int i=0; i<numArr.length; i++) {
             numArr[i] = (int)(Math.random()*10); // 0~9 까지 정수 저장
@@ -25,14 +25,14 @@ public class ArrayEx6 {
                 }
             }
 
-            if(chg == false) break;
+            if(!chg) break;
         }
 
         System.out.println();
 
         System.out.print("change arr: ");
-        for(int i=0; i<numArr.length; i++) {
-            System.out.print("["+numArr[i]+"]");
+        for (int j : numArr) {
+            System.out.print("[" + j + "]");
         }
     }
 }
