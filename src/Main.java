@@ -17,17 +17,16 @@ public class Main {
         // 저장된 배열 확인
         logger.debug(Arrays.toString(numArr));
 
-        // 배열에 저장된 각 숫자 중복 수 확인
-        // 0~9까지 반복하면서 숫자 카운트
-        for(int i=0; i<10; i++) {
-            for (int j : numArr) {
-                // 배열 요소 전체 돌면서 i 정수 몇개인지 확인
-                if (i == j) {
-                    counter[i]++;
-                }
-            }
+        // 배열에 저장된 숫자별 중복 갯수 확인
+        for(int i=0; i<numArr.length; i++) {
+            // numArr의 값을 counter인덱스로 잡아서 해당 인덱스의 요소값을 증감
+            // 예) numArr[0] = 4; -> counter[4] 값 증감
+            // comment : numArr 값을 인덱스로 잡을 생각은 전혀 못했다.
+            counter[numArr[i]]++;
+        }
 
-            logger.debug(i + "의 개수 :"+counter[i]);
+        for(int k=0; k<counter.length; k++) {
+            logger.debug(k+"의 개수 :"+counter[k]);
         }
     }
 }
