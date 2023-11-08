@@ -5,28 +5,28 @@ import java.util.Arrays;
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) {
+        int[] x = {10}; // int 배열타입의 참조형 변수
+        int y = 20; // int타입의 기본형 변수
 
-        int[] numArr = new int[10];
-        int[] counter = new int[10];
+        logger.debug("main x값: " + x);
+        logger.debug("main y값: " + y);
 
-        // 임의의 정수 0~9 배열 요소 초기화
-        for(int i=0; i<numArr.length; i++) {
-            numArr[i] = (int)(Math.random()*10);
-        }
+        logger.debug("change 메소드 전 x[0]: " + x[0]);
+        logger.debug("change 메소드 전 y: " + y);
 
-        // 저장된 배열 확인
-        logger.debug(Arrays.toString(numArr));
+        change(x, y);
 
-        // 배열에 저장된 숫자별 중복 갯수 확인
-        for(int i=0; i<numArr.length; i++) {
-            // numArr의 값을 counter인덱스로 잡아서 해당 인덱스의 요소값을 증감
-            // 예) numArr[0] = 4; -> counter[4] 값 증감
-            // comment : numArr 값을 인덱스로 잡을 생각은 전혀 못했다.
-            counter[numArr[i]]++;
-        }
+        logger.debug("change 메소드 후 x[0]: " + x[0]);
+        logger.debug("change 메소드 후 y: " + y);
+    }
 
-        for(int k=0; k<counter.length; k++) {
-            logger.debug(k+"의 개수 :"+counter[k]);
-        }
+    static void change(int[] x, int y) {
+        logger.debug("change 진입!! ");
+        logger.debug("change x값: " + x);
+
+        x[0] = 1000;
+        y = 2000;
+
+        logger.debug("change 탈출!! ");
     }
 }
