@@ -1,32 +1,61 @@
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.Arrays;
 
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) {
-        int[] x = {10}; // int 배열타입의 참조형 변수
-        int y = 20; // int타입의 기본형 변수
+        Student s = new Student();
+        Student s2 = new Student("김영희",1,2,60,100,76);
 
-        logger.debug("main x값: " + x);
-        logger.debug("main y값: " + y);
+        s.name = "홍길동";
+        s.ban = 1;
+        s.no = 1;
+        s.kor = 100;
+        s.eng = 60;
+        s.math = 76;
 
-        logger.debug("change 메소드 전 x[0]: " + x[0]);
-        logger.debug("change 메소드 전 y: " + y);
+        logger.debug("이름:"+s.name);
+        logger.debug("총점:"+s.getTotal());
+        logger.debug("평균:"+s.getAverage());
 
-        change(x, y);
+        logger.debug(s2.info());
+    }
+}
 
-        logger.debug("change 메소드 후 x[0]: " + x[0]);
-        logger.debug("change 메소드 후 y: " + y);
+class Student {
+    String name;
+    int ban; // 반
+    int no; // 번호
+    int kor; // 국어점수
+    int eng; // 영어점수
+    int math; // 수학점수
+
+    public Student() {
     }
 
-    static void change(int[] x, int y) {
-        logger.debug("change 진입!! ");
-        logger.debug("change x값: " + x);
+    public Student(String name, int ban, int no, int kor, int eng, int math) {
+        this.name = name;
+        this.ban = ban;
+        this.no = no;
+        this.kor = kor;
+        this.eng = eng;
+        this.math = math;
+    }
 
-        x[0] = 1000;
-        y = 2000;
+    int getTotal() {
+        return kor+eng+math;
+    }
 
-        logger.debug("change 탈출!! ");
+    float getAverage() {
+        // 평균 구함
+        float avg = ((float)getTotal())/3;
+        // 소수점 둘째자리에서 반올림 처리
+        avg = Float.parseFloat(String.format("%.1f",avg));
+
+        return avg;
+    }
+
+    String info() {
+        return this.name + "," + this.ban + "," + this.no + "," + this.kor + "," + this.eng + "," + this.math + "," + getTotal() + "," + getAverage();
     }
 }
