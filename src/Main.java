@@ -1,33 +1,63 @@
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
+class SutdaDeck {
+    final int CARD_NUM = 20;
+    SutdaCard[] cards = new SutdaCard[CARD_NUM]; // 객체를 생성한 것 x
+
+    SutdaDeck() {
+        for(int i=0; i<cards.length; i++) {
+            // 내 문풀
+            if(i < 10) {
+                if(i==0) {
+                    cards[i] = new SutdaCard(); // 생성자 있는거 사용하려고 굳이 분기ㅎ
+                } else if(i == 2 || i == 7){ // 광 처리
+                    cards[i] = new SutdaCard(i+1,true);
+                } else {
+                    cards[i] = new SutdaCard(i+1,false);
+                }
+            } else { // 다시 숫자 1부터 넣어줌
+                cards[i] = new SutdaCard(i-9,false);
+            }
+
+            // 답지
+            /*
+            int num = i%10+1; // 카드 숫자
+            boolean isKwang = (i<10) && ( num == 1 || num == 3 || num == 8); // 이렇게 냅다 조건식을 적어도 되는거구나,,
+
+            cards[i] = new SutdaCard(num,isKwang);
+             */
+        }
+    }
+}
+
+class SutdaCard {
+    int num;
+    boolean isKwang;
+
+    SutdaCard() {
+        this(1, true);
+    }
+
+    public SutdaCard(int num, boolean isKwang) {
+        this.num = num;
+        this.isKwang = isKwang;
+    }
+
+    @Override
+    public String toString() {
+        return num + (isKwang ? "K":"");
+    }
+}
 
 public class Main {
     public static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        Singleton s = Singleton.getInstance();
-        Singleton s2 = Singleton.getInstance();
-        Singleton s3 = Singleton.getInstance();
+        SutdaDeck deck = new SutdaDeck();
 
-        logger.debug(Objects.toString(s));
-        logger.debug(Objects.toString(s2));
-        logger.debug(Objects.toString(s3));
-    }
-}
-
-class Singleton {
-    private static Singleton s = new Singleton();
-    
-    private Singleton() {
-    }
-
-    public static Singleton getInstance() {
-        // 클래스 변수 s가 null인 경우만 인스턴스를 생성하므로 위에 생성한 인스턴스 하나만 사용하게 된다.
-        if(s == null)
-            s = new Singleton();
-
-        return s;
+        for(int i=0; i<deck.cards.length; i++) {
+           logger.debug(deck.cards[i]+",");
+        }
     }
 }
