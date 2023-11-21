@@ -1,81 +1,89 @@
+import java.util.Objects;
+
+abstract class Shape {
+    Point p;
+    Shape() {
+        this(new Point(0,0));
+    }
+    Shape(Point p) {
+        this.p = p;
+    }
+    abstract double calcArea(); // 도형의 면적을 계산해서 반환하는 메서드
+    Point getPosition() {
+        return p;
+    }
+    void setPosition(Point p) {
+        this.p = p;
+    }
+}
+class Point {
+    int x;
+    int y;
+    Point() {
+        this(0,0);
+    }
+    Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    public String toString() {
+        return "["+x+","+y+"]";
+    }
+}
+
+class Circle extends Shape {
+    double r;
+
+    Circle(double d) { // int는 자동형변환 되어 들어간다.
+        this(new Point(), d);
+    }
+
+    Circle(Point p, double d) { // double로 들어온거 처리 어떻게 해줘야되는데? => 부모 멤버는 부모 생성자에서 초기화 / 자식 멤버는 자식 생성자에서 초기화
+        super(p);
+        this.r = d;
+    }
+
+    @Override
+    double calcArea() {
+        return r*r*Math.PI;
+    }
+}
+
+class Rectangle extends Shape {
+    double width;
+    double height;
+
+    Rectangle(double width, double height) { // point 클래스는 int밖에 없는데 double로 들어온거 어떻게 처리하냐고
+        this(new Point(), width, height);
+    }
+
+    Rectangle(Point p, double width, double height) {
+        super(p);
+        this.width = width;
+        this.height = height;
+    }
+    @Override
+    double calcArea() {
+        return width*height;
+    }
+
+    boolean isSquare() {
+        return width * height > 0 && width == height;
+    }
+}
+
 public class Main {
+    public static double sumArea(Shape[] arr) {
+        double sum = 0.0;
+        for(Shape tmp : arr) {
+            sum += tmp.calcArea();
+        }
+
+        return sum;
+    }
+
     public static void main(String[] args) {
-        Buyer b = new Buyer();
-        b.buy(new Tv());
-        b.buy(new Computer());
-        b.buy(new Tv());
-        b.buy(new Audio());
-        b.buy(new Computer());
-        b.buy(new Computer());
-        b.buy(new Computer());
-        b.summary();
+        Shape[] arr = {new Circle(5.0), new Rectangle(3,4), new Circle(1)};
+        System.out.println(" :"+sumArea(arr));
     }
-}
-
-class Buyer {
-    int money = 1000;
-    Product[] cart = new Product[3]; // 구입한 제품을 저장하기 위한 배열
-    int i = 0; // Product cart index 배열 에 사용될
-    void buy(Product p) {
-        // 가진 돈이 물건 가격보다 적으면 리턴
-        if(money < p.price) {
-            System.out.println("잔액이 부족하여 "+p+"을/를 살 수 없습니다.");
-            return;
-        }
-
-        // 가진 돈이 충분하면 가진 돈에서 물건 값 빼기
-        money -= p.price;
-        // 구입한 물건 장바구니 추가
-        add(p);
-    }
-    void add(Product p) {
-        // i의 값이 장바구니의 크기보다 같거나 크면
-        if(i >= cart.length) {
-            // 기존의 장바구니보다 2배 큰 새로운 배열을 생성
-            Product[] newCart = new Product[cart.length*2];
-            // 기존 장바구니 값을 새로운 배열에 복사
-            for(int j=0; j<cart.length; j++) {
-                newCart[j] = cart[j];
-            }
-
-            // 새로운 장바구니와 기존 장바구니 바꾸기
-            cart = newCart;
-        }
-
-        // 물건을 장바구니(cart)에 저장하고, i의 값 1 증가
-        cart[i++] = p;
-    }
-    void summary() {
-        String itemList = "";
-        int totalPrice = 0;
-        for(int j=0; j<cart.length; j++) {
-            if(cart[j] == null) {
-                break;
-            }
-            itemList += (j==0) ? cart[j] : ","+cart[j];
-            totalPrice += cart[j].price;
-        }
-        System.out.println("구입한 물건:"+itemList);
-        System.out.println("사용한 금액:"+totalPrice);
-        System.out.println("남은 금액:"+money);
-    }
-}
-
-class Product {
-    int price; // 제품의 가격
-    Product(int price) {
-        this.price = price;
-    }
-}
-class Tv extends Product {
-    Tv() { super(100); }
-    public String toString() { return "Tv"; }
-}
-class Computer extends Product {
-    Computer() { super(200); }
-    public String toString() { return "Computer";}
-}
-class Audio extends Product {
-    Audio() { super(50); }
-    public String toString() { return "Audio"; }
 }
